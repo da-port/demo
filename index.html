@@ -992,17 +992,17 @@
             <div class="sample-prompts">
                 <h4>Quick Start - Try These Scenarios:</h4>
                 <div class="prompt-buttons">
-                    <button class="prompt-btn emergency" onclick="sendPrompt('My basement is flooding!')">
-                        🚨 Try Emergency: "My basement is flooding!"
+                    <button class="prompt-btn emergency" onclick="sendPrompt('There\'s water shooting out of my kitchen ceiling!')">
+                        🚨 Try Emergency: "There's water shooting out of my kitchen ceiling!"
                     </button>
-                    <button class="prompt-btn standard" onclick="sendPrompt('My toilet is clogged')">
-                        🔧 Try Standard: "My toilet is clogged"
+                    <button class="prompt-btn standard" onclick="sendPrompt('My water heater is making loud banging noises')">
+                        🔧 Try Standard: "My water heater is making loud banging noises"
                     </button>
-                    <button class="prompt-btn pricing" onclick="sendPrompt('How much to fix a leaky faucet?')">
-                        💰 Try Pricing: "How much to fix a leaky faucet?"
+                    <button class="prompt-btn pricing" onclick="sendPrompt('How much would it cost to fix a running toilet?')">
+                        💰 Try Pricing: "How much would it cost to fix a running toilet?"
                     </button>
-                    <button class="prompt-btn scheduling" onclick="sendPrompt('Can you come tomorrow?')">
-                        📅 Try Scheduling: "Can you come tomorrow?"
+                    <button class="prompt-btn scheduling" onclick="sendPrompt('Can someone come out this afternoon?')">
+                        📅 Try Scheduling: "Can someone come out this afternoon?"
                     </button>
                 </div>
             </div>
@@ -1397,9 +1397,9 @@
             navMenu.classList.toggle('active');
         }
 
-        // Interactive Chatbot Functionality
+        // Interactive ChatGPT-Powered Chatbot Functionality
         let chatHistory = [];
-        let currentScenario = null;
+        let conversationMessages = [];
         let demoMetrics = {
             messagesExchanged: 0,
             responseTime: 0,
@@ -1408,51 +1408,96 @@
             urgencyLevel: 'standard'
         };
 
-        // Plumbing knowledge base and responses
-        const plumbingResponses = {
-            emergency: {
-                keywords: ['flooding', 'burst', 'pipe', 'leak', 'water damage', 'basement', 'ceiling', 'gas', 'sewage', 'no water', 'backup'],
-                responses: [
-                    "⚠️ EMERGENCY DETECTED - This sounds like an urgent situation that needs immediate attention. I'm connecting you with our emergency dispatcher right now.",
-                    "I understand this is a serious emergency. Let me get your contact information so our emergency technician can call you within 15 minutes.",
-                    "This is definitely an emergency that can't wait. I'm creating a priority alert for our on-call plumber. What's your address and best phone number?"
-                ]
-            },
-            pricing: {
-                keywords: ['cost', 'price', 'much', 'charge', 'estimate', 'quote', 'expensive'],
-                responses: [
-                    "I'd be happy to give you a pricing estimate. For most standard repairs, we charge $89 for the service call (waived if you proceed with the repair). What specific issue are you dealing with?",
-                    "Our pricing depends on the specific work needed. Emergency services start at $150 plus $125/hour labor. Can you describe the problem in more detail?",
-                    "Let me help with pricing information. Common repairs range from $125-400 depending on complexity. What type of plumbing issue do you have?"
-                ]
-            },
-            scheduling: {
-                keywords: ['tomorrow', 'today', 'appointment', 'schedule', 'available', 'when', 'come out', 'visit'],
-                responses: [
-                    "I can definitely help schedule a service appointment. We have availability tomorrow morning at 9 AM or afternoon at 2 PM. What works better for you?",
-                    "Let me check our schedule. We can fit you in tomorrow between 10 AM - 12 PM or Thursday morning. Which day works better?",
-                    "I'd be happy to schedule that for you. What days work best? We typically have morning (8 AM - 12 PM) and afternoon (1 PM - 5 PM) slots available."
-                ]
-            },
-            standard: {
-                keywords: ['clog', 'drain', 'toilet', 'faucet', 'sink', 'drip', 'slow', 'running', 'handle'],
-                responses: [
-                    "I can help you with that. This sounds like a standard service call. Can you tell me more about the specific problem you're experiencing?",
-                    "That's a common issue we can definitely fix. Is this affecting your daily routine, or can it wait for a scheduled appointment?",
-                    "We handle this type of repair regularly. To give you the best service, can you describe exactly what's happening?"
-                ]
-            },
-            greeting: [
-                "Hi! I'm AquaFix's AI assistant. I'm available 24/7 to help with your plumbing needs. What can I help you with today?",
-                "Good to hear from you! I'm here to help with any plumbing issues you're having. What's going on?",
-                "Hello! AquaFix AI assistant here. How can I help you with your plumbing needs today?"
-            ]
-        };
+        // ChatGPT System Prompt for AquaFix Plumbing AI
+        const systemPrompt = `You are an intelligent, empathetic AI assistant for AquaFix Plumbing Services, helping customers 24/7 with plumbing issues, emergencies, scheduling, and pricing questions.
 
-        // Initialize chatbot
-        function initializeChatbot() {
-            const welcomeMessage = plumbingResponses.greeting[0];
-            addMessage('ai', welcomeMessage, false);
+Your personality: You're professional yet warm, genuinely helpful, and you understand that plumbing problems can be very stressful for homeowners. You communicate clearly without being overly technical, and you're patient with customers who might be panicked or frustrated.
+
+EMERGENCY DETECTION - CRITICAL: If a customer mentions any of these situations, immediately treat as an EMERGENCY:
+- Flooding, water everywhere, can't stop the water
+- Burst pipe, broken pipe, pipe leak
+- No water at all in the house
+- Gas leak or smell of gas
+- Sewage backup, sewage overflow
+- Water heater leaking badly
+- Words like 'emergency', 'urgent', 'help', 'disaster'
+
+Emergency Response Protocol:
+"I can hear this is a plumbing emergency, and I want to get you help immediately. If there's any gas smell or electrical hazard, please get to safety and call 911 first. I'm alerting our emergency technician right now - someone will call you within 15 minutes. Let me quickly get your contact information and address so we can dispatch help."
+
+Service Information:
+- Location: Metropolitan area service
+- Hours: Regular service 8 AM - 6 PM weekdays, Emergency service 24/7
+- Response times: Emergency calls within 15 minutes, regular appointments same/next day
+
+Pricing Guidelines (always explain these are estimates):
+- Emergency service: $150 emergency call-out fee + $125/hour labor
+- Regular service call: $89 diagnostic fee (waived if customer proceeds with repair)
+- Common services:
+  • Drain cleaning: $125-$300
+  • Faucet repair: $150-$400
+  • Toilet repair: $125-$350
+  • Toilet replacement: $300-$800
+  • Water heater repair: $200-$600
+  • Water heater installation: $1,200-$2,500
+  • Pipe repair: $150-$400 per section
+
+Communication style:
+- Ask thoughtful follow-up questions
+- Explain pricing factors clearly
+- Be reassuring during stressful situations
+- Use everyday language, not plumber jargon
+- Show genuine concern for the customer's situation
+
+Keep responses under 3 sentences and always be helpful, professional, and focused on solving the customer's problem efficiently.`;
+
+        // ChatGPT API Integration via server
+        async function callChatGPT(userMessage) {
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: userMessage,
+                        conversationHistory: conversationMessages
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return {
+                    content: data.response,
+                    isEmergency: data.isEmergency,
+                    fallback: data.fallback || false
+                };
+            } catch (error) {
+                console.error('Chat API Error:', error);
+                return {
+                    content: getFallbackResponse(userMessage),
+                    isEmergency: userMessage.toLowerCase().includes('emergency') || userMessage.toLowerCase().includes('flood'),
+                    fallback: true
+                };
+            }
+        }
+
+        // Fallback responses if API fails
+        function getFallbackResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('flood') || lowerMessage.includes('burst') || lowerMessage.includes('emergency')) {
+                return "⚠️ EMERGENCY DETECTED - This sounds urgent! I'm connecting you with our emergency dispatcher immediately. Someone will call you within 15 minutes. Please provide your contact information.";
+            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price')) {
+                return "I'd be happy to help with pricing. Our service call is $89 (waived with repair) and most repairs range $125-400. What specific issue are you dealing with?";
+            } else if (lowerMessage.includes('schedule') || lowerMessage.includes('appointment')) {
+                return "I can help schedule a service appointment. We have availability tomorrow morning or afternoon. What works better for your schedule?";
+            } else {
+                return "I understand you're having a plumbing issue. Can you describe what's happening so I can better assist you? Our technicians are available 24/7 for emergencies.";
+            }
         }
 
         // Send a prompt from the quick buttons
@@ -1461,8 +1506,8 @@
             sendMessage();
         }
 
-        // Main send message function
-        function sendMessage() {
+        // Main send message function with ChatGPT integration
+        async function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
             
@@ -1470,106 +1515,41 @@
 
             // Add user message
             addMessage('user', message);
+            conversationMessages.push({ role: 'user', content: message });
             input.value = '';
             
             // Disable input while processing
             document.getElementById('sendButton').disabled = true;
             showTypingIndicator();
             
-            // Process message and respond
-            setTimeout(() => {
-                processUserMessage(message);
-                hideTypingIndicator();
-                document.getElementById('sendButton').disabled = false;
-                updateDemoMetrics(message);
-            }, Math.random() * 1500 + 1000); // Realistic response delay
-        }
-
-        // Process user input and generate appropriate response
-        function processUserMessage(message) {
-            const lowerMessage = message.toLowerCase();
-            let responseType = 'standard';
-            let isEmergency = false;
-
-            // Detect emergency situations
-            if (plumbingResponses.emergency.keywords.some(keyword => lowerMessage.includes(keyword))) {
-                responseType = 'emergency';
-                isEmergency = true;
-                demoMetrics.urgencyLevel = 'emergency';
+            try {
+                // Call ChatGPT API via server
+                const result = await callChatGPT(message);
+                
+                // Add AI response
+                addMessage('ai', result.content, result.isEmergency);
+                conversationMessages.push({ role: 'assistant', content: result.content });
+                
+                // Update metrics and show results if needed
+                updateDemoMetrics(message, result.content);
+                
+                if (result.isEmergency) {
+                    setTimeout(() => showEmergencyResults(), 2000);
+                } else if (result.content.toLowerCase().includes('appointment') || result.content.toLowerCase().includes('schedule')) {
+                    setTimeout(() => showSchedulingResults(), 2000);
+                }
+                
+                // Show notification if using fallback
+                if (result.fallback) {
+                    console.log('Using fallback response - ChatGPT API may be temporarily unavailable');
+                }
+                
+            } catch (error) {
+                addMessage('ai', "I'm having trouble connecting right now. Please try again or call us directly at (555) 123-AQUA for immediate assistance.", false);
             }
-            // Detect pricing inquiries
-            else if (plumbingResponses.pricing.keywords.some(keyword => lowerMessage.includes(keyword))) {
-                responseType = 'pricing';
-            }
-            // Detect scheduling requests
-            else if (plumbingResponses.scheduling.keywords.some(keyword => lowerMessage.includes(keyword))) {
-                responseType = 'scheduling';
-            }
-            // Standard plumbing issues
-            else if (plumbingResponses.standard.keywords.some(keyword => lowerMessage.includes(keyword))) {
-                responseType = 'standard';
-            }
-
-            // Get appropriate response
-            const responses = plumbingResponses[responseType].responses || plumbingResponses.standard.responses;
-            const response = responses[Math.floor(Math.random() * responses.length)];
             
-            // Add AI response
-            addMessage('ai', response, isEmergency);
-
-            // Follow up based on scenario
-            setTimeout(() => {
-                handleFollowUp(responseType, lowerMessage);
-            }, 2000);
-        }
-
-        // Handle follow-up responses
-        function handleFollowUp(responseType, originalMessage) {
-            let followUp = '';
-
-            switch (responseType) {
-                case 'emergency':
-                    followUp = "To expedite service, I need your name, phone number, and address. Our emergency technician will call within 15 minutes.";
-                    setTimeout(() => {
-                        showEmergencyResults();
-                    }, 3000);
-                    break;
-                
-                case 'pricing':
-                    if (originalMessage.includes('faucet')) {
-                        followUp = "Faucet repairs typically cost $150-400 depending on the parts needed. Is the drip coming from the handle or the base?";
-                    } else if (originalMessage.includes('drain')) {
-                        followUp = "Drain cleaning runs $125-300. Is this a kitchen sink, bathroom, or floor drain that's slow?";
-                    } else {
-                        followUp = "To give you an accurate estimate, can you describe the specific problem you're experiencing?";
-                    }
-                    break;
-                
-                case 'scheduling':
-                    followUp = "Perfect! I'll need your name, address, and phone number to confirm the appointment. What's the best way to contact you?";
-                    setTimeout(() => {
-                        showSchedulingResults();
-                    }, 2500);
-                    break;
-                
-                case 'standard':
-                    if (originalMessage.includes('toilet')) {
-                        followUp = "Toilet issues can usually be fixed the same day. Is it not flushing properly, running constantly, or something else?";
-                    } else if (originalMessage.includes('clog')) {
-                        followUp = "We can typically clear most clogs within an hour. Is this a complete blockage or just draining slowly?";
-                    } else {
-                        followUp = "I can schedule someone to take a look. Would you prefer a morning or afternoon appointment?";
-                    }
-                    break;
-            }
-
-            if (followUp) {
-                showTypingIndicator();
-                setTimeout(() => {
-                    addMessage('ai', followUp);
-                    hideTypingIndicator();
-                }, 1500);
-            }
+            hideTypingIndicator();
+            document.getElementById('sendButton').disabled = false;
         }
 
         // Add message to chat
@@ -1632,18 +1612,28 @@
             addMessage('ai', "✅ Appointment confirmed for tomorrow at 10 AM. You'll receive a text confirmation shortly.", false);
         }
 
-        // Update demo metrics
-        function updateDemoMetrics(message) {
-            if (message.toLowerCase().includes('flood') || message.toLowerCase().includes('emergency')) {
+        // Update demo metrics based on conversation
+        function updateDemoMetrics(userMessage, aiResponse) {
+            const lowerUserMessage = userMessage.toLowerCase();
+            const lowerAiResponse = aiResponse.toLowerCase();
+            
+            // Detect issue type from user message and AI response
+            if (lowerUserMessage.includes('flood') || lowerUserMessage.includes('emergency') || 
+                lowerAiResponse.includes('emergency') || lowerAiResponse.includes('urgent')) {
                 demoMetrics.urgencyLevel = 'emergency';
                 demoMetrics.issueType = 'Emergency Detection';
-            } else if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+            } else if (lowerUserMessage.includes('price') || lowerUserMessage.includes('cost') ||
+                      lowerAiResponse.includes('pricing') || lowerAiResponse.includes('estimate')) {
                 demoMetrics.issueType = 'Pricing Inquiry';
-            } else if (message.toLowerCase().includes('schedule') || message.toLowerCase().includes('tomorrow')) {
+            } else if (lowerUserMessage.includes('schedule') || lowerUserMessage.includes('appointment') ||
+                      lowerAiResponse.includes('schedule') || lowerAiResponse.includes('appointment')) {
                 demoMetrics.issueType = 'Service Scheduling';
+            } else {
+                demoMetrics.issueType = 'Service Consultation';
             }
             
-            demoMetrics.responseTime = Math.round(Math.random() * 30 + 15); // 15-45 seconds
+            demoMetrics.responseTime = Math.round(Math.random() * 20 + 10); // 10-30 seconds
+            demoMetrics.messagesExchanged++;
         }
 
         // Show demo results
@@ -1677,9 +1667,10 @@
             resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Reset chat
+        // Reset chat and conversation history
         function resetChat() {
             chatHistory = [];
+            conversationMessages = [];
             demoMetrics = {
                 messagesExchanged: 0,
                 responseTime: 0,
@@ -1701,7 +1692,7 @@
             document.getElementById('messageInput').value = '';
         }
 
-        // Allow Enter key to send messages
+        // Initialize chatbot functionality
         document.addEventListener('DOMContentLoaded', function() {
             const messageInput = document.getElementById('messageInput');
             if (messageInput) {
