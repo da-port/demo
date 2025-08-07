@@ -53,22 +53,28 @@ Communication style:
 
 Keep responses under 3 sentences and always be helpful, professional, and focused on solving the customer's problem efficiently.`;
 
-// Simple rate limiting - track last request time
+// Enhanced rate limiting with exponential backoff
 let lastRequestTime = 0;
-const MIN_REQUEST_INTERVAL = 1000; // 1 second between requests
+let consecutiveErrors = 0;
+const BASE_REQUEST_INTERVAL = 2000; // 2 seconds between requests
+const MAX_RETRIES = 2;
 
 // ChatGPT API endpoint
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, conversationHistory } = req.body;
 
-        // Simple rate limiting
+        // Enhanced rate limiting with exponential backoff
         const now = Date.now();
+        const dynamicInterval = BASE_REQUEST_INTERVAL * Math.pow(2, Math.min(consecutiveErrors, 3));
         const timeSinceLastRequest = now - lastRequestTime;
-        if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
-            await new Promise(resolve => setTimeout(resolve, MIN_REQUEST_INTERVAL - timeSinceLastRequest));
+        
+        if (timeSinceLastRequest < dynamicInterval) {
+            await new Promise(resolve => setTimeout(resolve, dynamicInterval - timeSinceLastRequest));
         }
         lastRequestTime = Date.now();
+
+        console.log(`Making OpenAI API request (consecutive errors: ${consecutiveErrors})`);
 
         // Import fetch for Node.js (if needed)
         const fetch = (await import('node-fetch')).default;
@@ -92,29 +98,37 @@ app.post('/api/chat', async (req, res) => {
         });
 
         if (!response.ok) {
-            throw new Error(`OpenAI API Error: ${response.status}`);
+            const errorData = await response.text();
+            console.error(`OpenAI API Error ${response.status}:`, errorData);
+            throw new Error(`OpenAI API Error: ${response.status} - ${errorData}`);
         }
 
         const data = await response.json();
         const aiResponse = data.choices[0].message.content;
+
+        // Reset consecutive errors on success
+        consecutiveErrors = 0;
+        console.log('OpenAI API request successful');
 
         res.json({ 
             success: true, 
             response: aiResponse,
             isEmergency: aiResponse.toLowerCase().includes('emergency') || 
                         aiResponse.includes('⚠️') || 
-                        aiResponse.includes('urgent')
+                        aiResponse.includes('urgent'),
+            usingChatGPT: true
         });
 
     } catch (error) {
-        console.error('Chat API Error:', error);
+        consecutiveErrors++;
+        console.error(`Chat API Error (${consecutiveErrors} consecutive):`, error.message);
         
         // Handle different types of API errors
         let fallbackResponse;
         let errorType = 'general';
         
         if (error.message.includes('429')) {
-            fallbackResponse = "I'm experiencing high demand right now. Let me connect you directly with our dispatch team who can help immediately. What's your plumbing emergency?";
+            fallbackResponse = `I'm experiencing high API usage right now. Wait a moment and try again for the full ChatGPT experience, or I can help with basic information. What's your plumbing issue?`;
             errorType = 'rate_limit';
         } else if (error.message.includes('401')) {
             fallbackResponse = "I'm having authentication issues. Please call our 24/7 hotline at (555) 123-AQUA for immediate assistance with your plumbing needs.";
@@ -138,7 +152,8 @@ app.post('/api/chat', async (req, res) => {
             response: fallbackResponse,
             isEmergency: fallbackResponse.includes('⚠️'),
             fallback: true,
-            errorType: errorType
+            errorType: errorType,
+            usingChatGPT: false
         });
     }
 });

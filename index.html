@@ -1539,9 +1539,35 @@ Keep responses under 3 sentences and always be helpful, professional, and focuse
                     setTimeout(() => showSchedulingResults(), 2000);
                 }
                 
-                // Show notification if using fallback
+                // Show clear indication of response type
                 if (result.fallback) {
-                    console.log('Using fallback response - ChatGPT API may be temporarily unavailable');
+                    console.log('Using fallback response - ChatGPT API temporarily unavailable');
+                    // Add visual indicator for fallback responses
+                    const lastMessage = document.querySelector('.chat-message:last-child');
+                    if (lastMessage) {
+                        lastMessage.style.borderLeft = '3px solid orange';
+                        const indicator = document.createElement('small');
+                        indicator.style.color = '#666';
+                        indicator.style.fontSize = '11px';
+                        indicator.style.display = 'block';
+                        indicator.style.marginTop = '5px';
+                        indicator.textContent = '⚠️ Fallback mode - Try again in a moment for full ChatGPT responses';
+                        lastMessage.querySelector('.message-content').appendChild(indicator);
+                    }
+                } else if (result.usingChatGPT) {
+                    console.log('Using live ChatGPT response');
+                    // Add subtle indicator for real ChatGPT responses
+                    const lastMessage = document.querySelector('.chat-message:last-child');
+                    if (lastMessage) {
+                        lastMessage.style.borderLeft = '3px solid #4CAF50';
+                        const indicator = document.createElement('small');
+                        indicator.style.color = '#4CAF50';
+                        indicator.style.fontSize = '11px';
+                        indicator.style.display = 'block';
+                        indicator.style.marginTop = '5px';
+                        indicator.textContent = '🤖 Powered by ChatGPT';
+                        lastMessage.querySelector('.message-content').appendChild(indicator);
+                    }
                 }
                 
             } catch (error) {
