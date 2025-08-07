@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const port = 5000;
@@ -155,6 +156,89 @@ app.post('/api/chat', async (req, res) => {
             fallback: true,
             errorType: errorType,
             usingChatGPT: false
+        });
+    }
+});
+
+// Configure email transporter (using Gmail SMTP as example)
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER || 'your-email@gmail.com',
+        pass: process.env.EMAIL_PASSWORD || 'your-app-password'
+    }
+});
+
+// Contact form submission endpoint
+app.post('/api/contact', async (req, res) => {
+    try {
+        const {
+            businessName,
+            industry,
+            interestedPackage,
+            callVolume,
+            contactName,
+            phone,
+            email,
+            specificNeeds,
+            message
+        } = req.body;
+
+        // Validate required fields
+        if (!businessName || !industry || !contactName || !phone || !email) {
+            return res.status(400).json({
+                success: false,
+                error: 'Please fill in all required fields'
+            });
+        }
+
+        // Create email content
+        const emailContent = `
+New Contact Form Submission - My Answer Pro
+
+Business Information:
+- Business Name: ${businessName}
+- Industry: ${industry}
+- Interested Package: ${interestedPackage || 'Not specified'}
+- Current Call Volume: ${callVolume || 'Not specified'} calls/week
+
+Contact Information:
+- Contact Name: ${contactName}
+- Phone: ${phone}
+- Email: ${email}
+
+Additional Information:
+- Specific Needs: ${specificNeeds || 'None provided'}
+- Message: ${message || 'None provided'}
+
+Submitted: ${new Date().toLocaleString()}
+        `.trim();
+
+        // Email options
+        const mailOptions = {
+            from: process.env.EMAIL_USER || 'noreply@myanswerpro.com',
+            to: 'admin@myanswerpro.com',
+            subject: `New Lead: ${businessName} - ${interestedPackage || 'Package Interest'}`,
+            text: emailContent,
+            html: emailContent.replace(/\n/g, '<br>')
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+        
+        console.log('Contact form email sent successfully');
+        res.json({
+            success: true,
+            message: 'Thank you for your interest! We will contact you within 24 hours.'
+        });
+
+    } catch (error) {
+        console.error('Contact form error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'There was an error sending your message. Please try again or call us directly.'
         });
     }
 });
