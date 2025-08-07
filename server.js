@@ -86,7 +86,7 @@ app.post('/api/chat', async (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-4o', // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+                model: 'gpt-3.5-turbo', // Using gpt-3.5-turbo as requested by user
                 max_tokens: 300,
                 temperature: 0.7,
                 messages: [
