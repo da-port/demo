@@ -1,0 +1,111 @@
+Replit Prompt: Professional AI Answering Service Website
+Create a modern, professional single-page website for an AI answering service business that helps local businesses capture after-hours leads. The website should be built using HTML, CSS, and JavaScript in a single file.
+Business Overview
+The company provides AI-powered phone answering agents that handle after-hours calls for local businesses (plumbers, HVAC, contractors, etc.), qualify leads, and ensure urgent situations get immediate attention while non-urgent calls are scheduled appropriately.
+Design Requirements
+Overall Style
+
+Modern, professional design with a tech-forward aesthetic
+Use a gradient background (blues/purples suggesting technology and trust)
+Clean typography with good contrast
+Responsive design that works on mobile and desktop
+Subtle animations and hover effects to feel premium
+Professional color scheme: blues, whites, with accent colors for CTAs
+
+Layout Structure
+
+Header/Navigation: Fixed header with company logo and navigation
+Hero Section: Compelling headline about never missing customer calls again
+Problem Statement: Section explaining revenue loss from missed after-hours calls
+Solution Overview: How the AI answering service works
+Visual Process Flow: Animated graphics showing the call-to-lead process
+Detailed Example: Plumber scenario (see below)
+Benefits Section: Key advantages for businesses
+Call-to-Action: Contact form or scheduling button
+
+Key Content Sections
+Hero Section
+
+Headline: "Never Miss Another High-Value Customer Call"
+Subheadline: "AI-Powered After-Hours Answering Service That Turns Every Call Into a Qualified Lead"
+Include statistics like "Local businesses lose $75,000+ annually from missed after-hours calls"
+
+Visual Graphics/Animations Required
+
+Call Flow Diagram: Show incoming call → AI agent answers → lead qualification → urgent/non-urgent routing → CRM integration
+Before/After Comparison: Split screen showing missed calls vs. captured leads
+Real-time Demo: Mock phone interface showing AI conversation in progress
+Revenue Impact Chart: Visual showing potential revenue recovery
+
+Detailed Plumber Example
+Create an interactive section titled "See It In Action" with:
+Scenario Setup: "It's 11 PM on a Saturday. Your plumbing business is closed, but emergency calls are still coming in."
+Two Call Examples Side by Side:
+Call 1 - URGENT (Highlighted in Red)
+
+Caller: "Hi, I have water pouring through my ceiling from upstairs. It's flooding my living room!"
+AI Response: "I understand this is an emergency. Let me get your information immediately and have someone contact you within 15 minutes."
+AI Action: Flags as URGENT, sends immediate alert to on-call plumber, creates high-priority lead
+Result: "Emergency plumber dispatched - Potential revenue: $800-2,000"
+
+Call 2 - NON-URGENT (Highlighted in Blue)
+
+Caller: "My kitchen faucet has been dripping for a few weeks. Can someone take a look next week?"
+AI Response: "I can definitely help schedule a service appointment. What days work best for you?"
+AI Action: Schedules appointment, qualifies budget, creates standard lead
+Result: "Appointment scheduled for Tuesday - Potential revenue: $150-400"
+
+Technical Features to Highlight
+
+24/7 availability
+Instant lead qualification
+CRM integration
+Appointment scheduling
+SMS/email notifications
+Call recording and transcription
+Multi-language support
+Emergency escalation protocols
+
+Benefits Section (with icons)
+
+"Capture 100% of After-Hours Calls"
+"Qualify Leads Automatically"
+"Emergency Detection & Routing"
+"Seamless CRM Integration"
+"Increase Revenue by $75,000+ Annually"
+"Professional Brand Image"
+
+Social Proof Elements
+
+Testimonial quotes from business owners
+Statistics about call capture rates
+Industry-specific success metrics
+"Trusted by 500+ Local Businesses"
+
+Interactive Elements
+
+Live Chat Simulator: Let visitors interact with a demo AI agent
+ROI Calculator: Input current call volume to see potential revenue impact
+Industry Selector: Toggle between plumber, HVAC, electrician examples
+Pricing Calculator: Based on call volume estimates
+
+Call-to-Action Requirements
+
+Primary CTA: "Get Your AI Agent Setup in 24 Hours"
+Secondary CTA: "See a Live Demo"
+Contact form with fields: Business Name, Industry, Phone, Email, Current Call Volume
+Offer: "Free 7-Day Trial" or "Free Setup (Limited Time)"
+
+Technical Specifications
+
+Single HTML file with embedded CSS and JavaScript
+Mobile-responsive design
+Fast loading with optimized images/animations
+Contact form with basic validation
+Smooth scrolling navigation
+CSS animations for visual elements
+No external dependencies (use CDN for fonts if needed)
+
+Content Tone
+Professional but approachable, focusing on the financial impact and ease of implementation. Emphasize that this is a proven solution that can be set up quickly with immediate ROI.
+Build this as a high-converting landing page that clearly demonstrates the value proposition and includes compelling visuals that make the AI answering service concept easy to understand for local business owners.
