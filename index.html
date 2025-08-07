@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Answering Service - Never Miss Another Customer Call</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #1e40af;
+            --accent-purple: #7c3aed;
+            --light-blue: #dbeafe;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --success-green: #10b981;
+            --warning-red: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-secondary: linear-gradient(135deg, #1e40af 0%, #6366f1 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--gradient-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .cta-button {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-stats {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem auto;
+            max-width: 500px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-cta {
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            color: var(--warning-red);
+            margin-bottom: 1rem;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .call-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: slideInUp 0.8s ease;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        .flow-icon {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .call-example {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--warning-red);
+        }
+
+        .call-example.non-urgent {
+            border-left-color: var(--primary-blue);
+        }
+
+        .call-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .call-status {
+            background: var(--warning-red);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .call-status.non-urgent {
+            background: var(--primary-blue);
+        }
+
+        .conversation {
+            margin: 1.5rem 0;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .caller-message {
+            background: #f3f4f6;
+            border-left: 3px solid var(--text-light);
+        }
+
+        .ai-message {
+            background: var(--light-blue);
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .result {
+            background: var(--success-green);
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 80px 0;
+            background: var(--gradient-secondary);
+            color: var(--white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-top: 3rem;
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .calculator-result {
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .calculator-result.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            margin-top: 3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--white);
+            width: 100%;
+        }
+
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: var(--white);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+
+            .call-flow {
+                flex-direction: column;
+            }
+
+            .flow-step:not(:last-child)::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translate(50%, 10px);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <i class="fas fa-phone-alt"></i> AI Answer Pro
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#solution">Solution</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Never Miss Another High-Value Customer Call</h1>
+                <p class="hero-subtitle">AI-Powered After-Hours Answering Service That Turns Every Call Into a Qualified Lead</p>
+                
+                <div class="hero-stats">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Local businesses lose $75,000+ annually from missed after-hours calls</h3>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="#demo" class="cta-button" style="font-size: 1.2rem; padding: 1rem 2rem;">See It In Action</a>
+                    <a href="#contact" class="cta-button" style="background: transparent; border: 2px solid white; margin-left: 1rem;">Get Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">The Hidden Cost of Missed Calls</h2>
+                <p class="section-subtitle">Every missed after-hours call is potential revenue walking out the door. Your customers need help when emergencies strike, not during business hours.</p>
+            </div>
+
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">
+                        <i class="fas fa-phone-slash"></i>
+                    </div>
+                    <h3>Missed Emergency Calls</h3>
+                    <p>Urgent plumbing, HVAC, and electrical emergencies happen 24/7. Missing these calls means losing high-value customers to competitors.</p>
+                </div>
+
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Lost Revenue</h3>
+                    <p>The average emergency service call is worth $800-$2,000. Missing just one call per week costs you $40,000+ annually.</p>
+                </div>
+
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                    <h3>Frustrated Customers</h3>
+                    <p>Customers in crisis expect immediate response. Voicemail doesn't solve burst pipes or heating failures at midnight.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="solution-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">How Our AI Answering Service Works</h2>
+                <p class="section-subtitle">Professional AI agents that understand your business, qualify leads, and handle emergencies 24/7/365.</p>
+            </div>
+
+            <div class="call-flow">
+                <div class="flow-step fade-in">
+                    <div class="flow-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h4>Call Received</h4>
+                    <p>Customer calls your business number after hours</p>
+                </div>
+
+                <div class="flow-step fade-in">
+                    <div class="flow-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>AI Agent Answers</h4>
+                    <p>Professional AI greets customer with your business name</p>
+                </div>
+
+                <div class="flow-step fade-in">
+                    <div class="flow-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h4>Lead Qualification</h4>
+                    <p>AI asks smart questions to understand the situation</p>
+                </div>
+
+                <div class="flow-step fade-in">
+                    <div class="flow-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h4>Smart Routing</h4>
+                    <p>Emergency alerts or appointment scheduling based on urgency</p>
+                </div>
+
+                <div class="flow-step fade-in">
+                    <div class="flow-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h4>CRM Integration</h4>
+                    <p>All lead data automatically saved to your system</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">See It In Action: Real Plumber Scenarios</h2>
+                <p class="section-subtitle">It's 11 PM on a Saturday. Your plumbing business is closed, but emergency calls are still coming in.</p>
+            </div>
+
+            <div class="demo-container">
+                <div class="call-example fade-in">
+                    <div class="call-header">
+                        <span class="call-status">URGENT</span>
+                        <h4>Emergency Call</h4>
+                    </div>
+
+                    <div class="conversation">
+                        <div class="message caller-message">
+                            <strong>Caller:</strong> "Hi, I have water pouring through my ceiling from upstairs. It's flooding my living room!"
+                        </div>
+                        <div class="message ai-message">
+                            <strong>AI Agent:</strong> "I understand this is an emergency. Let me get your information immediately and have someone contact you within 15 minutes. Can you tell me your address and the best number to reach you?"
+                        </div>
+                    </div>
+
+                    <div class="result">
+                        <i class="fas fa-bolt"></i> Emergency plumber dispatched<br>
+                        <strong>Potential Revenue: $800-2,000</strong>
+                    </div>
+                </div>
+
+                <div class="call-example non-urgent fade-in">
+                    <div class="call-header">
+                        <span class="call-status non-urgent">NON-URGENT</span>
+                        <h4>Service Request</h4>
+                    </div>
+
+                    <div class="conversation">
+                        <div class="message caller-message">
+                            <strong>Caller:</strong> "My kitchen faucet has been dripping for a few weeks. Can someone take a look next week?"
+                        </div>
+                        <div class="message ai-message">
+                            <strong>AI Agent:</strong> "I can definitely help schedule a service appointment. What days work best for you this week? Also, is this the main faucet handle or the base that's leaking?"
+                        </div>
+                    </div>
+
+                    <div class="result">
+                        <i class="fas fa-calendar-check"></i> Appointment scheduled for Tuesday<br>
+                        <strong>Potential Revenue: $150-400</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <div class="fade-in">
+                    <h3 style="color: var(--success-green); font-size: 1.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-check-circle"></i> 100% Call Capture Rate
+                    </h3>
+                    <p style="color: var(--text-light); font-size: 1.125rem;">Your competitors are still losing these calls to voicemail</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Why Local Businesses Choose AI Answer Pro</h2>
+                <p class="section-subtitle">Join 500+ businesses already capturing more leads and growing revenue</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Capture 100% of Calls</h3>
+                    <p>Never miss another potential customer, even during holidays and weekends</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Qualify Leads Automatically</h3>
+                    <p>AI asks the right questions to understand customer needs and budget</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Emergency Detection</h3>
+                    <p>Instant alerts for urgent situations requiring immediate attention</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3>CRM Integration</h3>
+                    <p>Seamlessly connects with your existing business management systems</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Increase Revenue $75K+</h3>
+                    <p>Average customers see 15-25% revenue increase in first year</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Professional Image</h3>
+                    <p>Always-available service sets you apart from competitors</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Calculate Your Revenue Impact</h2>
+                <p class="section-subtitle">See how much revenue you could recover with 24/7 call capture</p>
+            </div>
+
+            <div class="calculator fade-in">
+                <form class="calculator-form" id="roiCalculator">
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select your industry</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="hvac">HVAC</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="roofing">Roofing</option>
+                            <option value="locksmith">Locksmith</option>
+                            <option value="appliance">Appliance Repair</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="missedCalls">Estimated Missed After-Hours Calls/Week</label>
+                        <input type="number" id="missedCalls" name="missedCalls" min="1" max="100" required placeholder="e.g., 5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="avgJobValue">Average Job Value</label>
+                        <input type="number" id="avgJobValue" name="avgJobValue" min="50" required placeholder="e.g., 500">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="cta-button" onclick="calculateROI()" style="height: fit-content; margin-top: 2rem;">
+                            Calculate My Revenue Impact
+                        </button>
+                    </div>
+                </form>
+
+                <div class="calculator-result" id="calculatorResult">
+                    <h3>Your Revenue Recovery Potential</h3>
+                    <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0;" id="annualRevenue">
+                        $0
+                    </div>
+                    <p id="resultDetails"></p>
+                    <div style="margin-top: 2rem;">
+                        <a href="#contact" class="cta-button" style="background: white; color: var(--primary-blue);">
+                            Start Capturing This Revenue
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Get Your AI Agent Setup in 24 Hours</h2>
+                <p class="section-subtitle">Join hundreds of local businesses already capturing more leads with AI</p>
+            </div>
+
+            <form class="contact-form fade-in" id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" name="businessName" placeholder="Business Name" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="hvac">HVAC</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="roofing">Roofing</option>
+                            <option value="locksmith">Locksmith</option>
+                            <option value="appliance">Appliance Repair</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" name="contactName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" placeholder="Phone Number" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="callVolume" placeholder="Missed calls/week estimate" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="message" placeholder="Tell us about your biggest challenge with after-hours calls (optional)"></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-rocket"></i> Get Free 7-Day Trial + Setup
+                </button>
+
+                <p style="text-align: center; margin-top: 1rem; opacity: 0.8;">
+                    <i class="fas fa-shield-alt"></i> No setup fees • Cancel anytime • 24/7 support
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ROI Calculator functionality
+        function calculateROI() {
+            const industry = document.getElementById('industry').value;
+            const missedCalls = parseInt(document.getElementById('missedCalls').value);
+            const avgJobValue = parseInt(document.getElementById('avgJobValue').value);
+
+            if (!industry || !missedCalls || !avgJobValue) {
+                alert('Please fill in all fields to calculate your ROI');
+                return;
+            }
+
+            // Industry-specific conversion rates and emergency multipliers
+            const industryData = {
+                plumbing: { conversion: 0.65, emergencyRate: 0.3, emergencyMultiplier: 2.5 },
+                hvac: { conversion: 0.55, emergencyRate: 0.25, emergencyMultiplier: 2.2 },
+                electrical: { conversion: 0.60, emergencyRate: 0.35, emergencyMultiplier: 2.8 },
+                roofing: { conversion: 0.45, emergencyRate: 0.15, emergencyMultiplier: 1.8 },
+                locksmith: { conversion: 0.70, emergencyRate: 0.50, emergencyMultiplier: 2.0 },
+                appliance: { conversion: 0.50, emergencyRate: 0.20, emergencyMultiplier: 1.5 }
+            };
+
+            const data = industryData[industry];
+            const weeklyConversions = missedCalls * data.conversion;
+            const emergencyCalls = weeklyConversions * data.emergencyRate;
+            const regularCalls = weeklyConversions - emergencyCalls;
+            
+            const weeklyRevenue = (emergencyCalls * avgJobValue * data.emergencyMultiplier) + 
+                                 (regularCalls * avgJobValue);
+            const annualRevenue = weeklyRevenue * 52;
+
+            // Display results
+            document.getElementById('annualRevenue').textContent = 
+                '$' + annualRevenue.toLocaleString();
+            
+            document.getElementById('resultDetails').innerHTML = `
+                Based on ${missedCalls} missed calls/week in ${industry}:<br>
+                • Weekly conversions: ${Math.round(weeklyConversions)} jobs<br>
+                • Emergency calls: ${Math.round(emergencyCalls)} (${Math.round(data.emergencyRate * 100)}%)<br>
+                • Weekly revenue recovery: $${Math.round(weeklyRevenue).toLocaleString()}
+            `;
+
+            document.getElementById('calculatorResult').classList.add('show');
+        }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Here you would typically send the data to your backend
+            // For now, we'll just show a success message
+            alert('Thank you! We\'ll contact you within 24 hours to set up your AI agent.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add pulse animation to CTA buttons periodically
+            setInterval(() => {
+                const ctaButtons = document.querySelectorAll('.cta-button');
+                ctaButtons.forEach(button => {
+                    button.classList.add('pulse-animation');
+                    setTimeout(() => {
+                        button.classList.remove('pulse-animation');
+                    }, 2000);
+                });
+            }, 10000);
+
+            // Animate flow steps with delay
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach((step, index) => {
+                step.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Industry selector for demo examples
+        function switchIndustryExample(industry) {
+            // This could be expanded to show different industry-specific examples
+            console.log(`Switching to ${industry} examples`);
+        }
+
+        // Add loading states for better UX
+        function showLoading(element) {
+            element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calculating...';
+        }
+
+        // Form validation enhancement
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ef4444';
+                    valid = false;
+                } else {
+                    input.style.borderColor = '#d1d5db';
+                }
+            });
+            
+            return valid;
+        }
+
+        // Mobile menu toggle (if needed)
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
