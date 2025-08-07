@@ -53,10 +53,22 @@ Communication style:
 
 Keep responses under 3 sentences and always be helpful, professional, and focused on solving the customer's problem efficiently.`;
 
+// Simple rate limiting - track last request time
+let lastRequestTime = 0;
+const MIN_REQUEST_INTERVAL = 1000; // 1 second between requests
+
 // ChatGPT API endpoint
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, conversationHistory } = req.body;
+
+        // Simple rate limiting
+        const now = Date.now();
+        const timeSinceLastRequest = now - lastRequestTime;
+        if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+            await new Promise(resolve => setTimeout(resolve, MIN_REQUEST_INTERVAL - timeSinceLastRequest));
+        }
+        lastRequestTime = Date.now();
 
         // Import fetch for Node.js (if needed)
         const fetch = (await import('node-fetch')).default;
@@ -97,23 +109,36 @@ app.post('/api/chat', async (req, res) => {
     } catch (error) {
         console.error('Chat API Error:', error);
         
-        // Fallback response
-        let fallbackResponse = "I understand you're having a plumbing issue. Can you describe what's happening so I can better assist you? Our technicians are available 24/7 for emergencies.";
+        // Handle different types of API errors
+        let fallbackResponse;
+        let errorType = 'general';
         
-        const lowerMessage = req.body.message?.toLowerCase() || '';
-        if (lowerMessage.includes('flood') || lowerMessage.includes('burst') || lowerMessage.includes('emergency')) {
-            fallbackResponse = "⚠️ EMERGENCY DETECTED - This sounds urgent! I'm connecting you with our emergency dispatcher immediately. Someone will call you within 15 minutes. Please provide your contact information.";
-        } else if (lowerMessage.includes('cost') || lowerMessage.includes('price')) {
-            fallbackResponse = "I'd be happy to help with pricing. Our service call is $89 (waived with repair) and most repairs range $125-400. What specific issue are you dealing with?";
-        } else if (lowerMessage.includes('schedule') || lowerMessage.includes('appointment')) {
-            fallbackResponse = "I can help schedule a service appointment. We have availability tomorrow morning or afternoon. What works better for your schedule?";
+        if (error.message.includes('429')) {
+            fallbackResponse = "I'm experiencing high demand right now. Let me connect you directly with our dispatch team who can help immediately. What's your plumbing emergency?";
+            errorType = 'rate_limit';
+        } else if (error.message.includes('401')) {
+            fallbackResponse = "I'm having authentication issues. Please call our 24/7 hotline at (555) 123-AQUA for immediate assistance with your plumbing needs.";
+            errorType = 'auth_error';
+        } else {
+            // General fallback based on message content
+            const lowerMessage = req.body.message?.toLowerCase() || '';
+            if (lowerMessage.includes('flood') || lowerMessage.includes('burst') || lowerMessage.includes('emergency')) {
+                fallbackResponse = "⚠️ EMERGENCY DETECTED - This sounds urgent! I'm connecting you with our emergency dispatcher immediately. Someone will call you within 15 minutes. Please provide your contact information.";
+            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price')) {
+                fallbackResponse = "I'd be happy to help with pricing. Our service call is $89 (waived with repair) and most repairs range $125-400. What specific issue are you dealing with?";
+            } else if (lowerMessage.includes('schedule') || lowerMessage.includes('appointment')) {
+                fallbackResponse = "I can help schedule a service appointment. We have availability tomorrow morning or afternoon. What works better for your schedule?";
+            } else {
+                fallbackResponse = "I understand you're having a plumbing issue. Can you describe what's happening so I can better assist you? Our technicians are available 24/7 for emergencies.";
+            }
         }
 
         res.json({ 
             success: true, 
             response: fallbackResponse,
             isEmergency: fallbackResponse.includes('⚠️'),
-            fallback: true
+            fallback: true,
+            errorType: errorType
         });
     }
 });
