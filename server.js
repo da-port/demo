@@ -109,6 +109,7 @@ app.post('/api/chat', async (req, res) => {
         // Reset consecutive errors on success
         consecutiveErrors = 0;
         console.log('OpenAI API request successful');
+        console.log('ChatGPT Response:', aiResponse.substring(0, 100) + '...');
 
         res.json({ 
             success: true, 

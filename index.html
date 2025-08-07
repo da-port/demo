@@ -1457,11 +1457,13 @@ Keep responses under 3 sentences and always be helpful, professional, and focuse
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache'
                     },
                     body: JSON.stringify({
                         message: userMessage,
-                        conversationHistory: conversationMessages
+                        conversationHistory: conversationMessages,
+                        timestamp: Date.now()
                     })
                 });
 
