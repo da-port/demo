@@ -256,72 +256,307 @@
             background: var(--white);
         }
 
-        .demo-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
+        /* Sample Prompts Styling */
+        .sample-prompts {
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
-        .call-example {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--warning-red);
-        }
-
-        .call-example.non-urgent {
-            border-left-color: var(--primary-blue);
-        }
-
-        .call-header {
-            display: flex;
-            align-items: center;
+        .sample-prompts h4 {
             margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-size: 1.25rem;
         }
 
-        .call-status {
+        .prompt-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .prompt-btn {
+            background: var(--white);
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .prompt-btn:hover {
+            background: var(--primary-blue);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .prompt-btn.emergency {
+            border-color: var(--warning-red);
+            color: var(--warning-red);
+        }
+
+        .prompt-btn.emergency:hover {
             background: var(--warning-red);
             color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+        }
+
+        /* Chatbot Interface Styling */
+        .chatbot-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .chatbot-header {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .chatbot-title i {
+            font-size: 1.5rem;
+        }
+
+        .powered-by {
             font-size: 0.875rem;
-            font-weight: 600;
-            margin-right: 1rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
         }
 
-        .call-status.non-urgent {
-            background: var(--primary-blue);
+        .reset-chat-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
         }
 
-        .conversation {
-            margin: 1.5rem 0;
+        .reset-chat-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f8fafc;
+            scroll-behavior: smooth;
         }
 
         .message {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        .caller-message {
-            background: #f3f4f6;
-            border-left: 3px solid var(--text-light);
+        .message.user-message {
+            align-items: flex-end;
         }
 
-        .ai-message {
-            background: var(--light-blue);
-            border-left: 3px solid var(--primary-blue);
+        .message.ai-message {
+            align-items: flex-start;
         }
 
-        .result {
-            background: var(--success-green);
+        .message-content {
+            max-width: 80%;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .user-message .message-content {
+            background: var(--primary-blue);
             color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message .message-content {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #e5e7eb;
+            border-bottom-left-radius: 4px;
+        }
+
+        .emergency-message .message-content {
+            border-left: 4px solid var(--warning-red);
+            background: #fef2f2;
+        }
+
+        .success-message .message-content {
+            border-left: 4px solid var(--success-green);
+            background: #f0fdf4;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: typing-bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing-bounce {
+            0%, 80%, 100% { 
+                transform: scale(0);
+                opacity: 0.5;
+            } 
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1.5rem;
+            background: var(--white);
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-right: 0.75rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .chat-input button {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            background: var(--secondary-blue);
+            transform: translateY(-1px);
+        }
+
+        .chat-input button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Demo Results Styling */
+        .demo-results {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid #bbf7d0;
+        }
+
+        .demo-results h4 {
+            color: var(--success-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-item {
+            background: var(--white);
             padding: 1rem;
             border-radius: 8px;
-            font-weight: 600;
             text-align: center;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--success-green);
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .demo-cta {
+            text-align: center;
+        }
+
+        .demo-cta p {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
         /* Benefits Section */
@@ -544,6 +779,61 @@
             .calculator-form {
                 grid-template-columns: 1fr;
             }
+
+            /* Mobile chatbot styles */
+            .prompt-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt-btn {
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .chatbot-header {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .chatbot-title {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .chat-messages {
+                height: 350px;
+                padding: 1rem;
+            }
+
+            .message-content {
+                max-width: 90%;
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .chat-input {
+                padding: 1rem;
+            }
+
+            .chat-input input {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+
+            .chat-input button {
+                padding: 0.75rem 1rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
         }
 
         /* Scroll behavior */
@@ -688,64 +978,83 @@
         </div>
     </section>
 
-    <!-- Demo Section -->
+    <!-- Interactive Demo Section -->
     <section id="demo" class="demo-section">
         <div class="container">
             <div class="section-header fade-in">
-                <h2 class="section-title">See It In Action: Real Plumber Scenarios</h2>
-                <p class="section-subtitle">It's 11 PM on a Saturday. Your plumbing business is closed, but emergency calls are still coming in.</p>
+                <h2 class="section-title">Try Our AI Agent Live Demo</h2>
+                <p class="section-subtitle">Experience our AI technology firsthand. This live demo shows exactly how our AI agent would handle calls for a plumbing business. Try different scenarios to see emergency detection, pricing, and scheduling in action.</p>
             </div>
 
-            <div class="demo-container">
-                <div class="call-example fade-in">
-                    <div class="call-header">
-                        <span class="call-status">URGENT</span>
-                        <h4>Emergency Call</h4>
-                    </div>
-
-                    <div class="conversation">
-                        <div class="message caller-message">
-                            <strong>Caller:</strong> "Hi, I have water pouring through my ceiling from upstairs. It's flooding my living room!"
-                        </div>
-                        <div class="message ai-message">
-                            <strong>AI Agent:</strong> "I understand this is an emergency. Let me get your information immediately and have someone contact you within 15 minutes. Can you tell me your address and the best number to reach you?"
-                        </div>
-                    </div>
-
-                    <div class="result">
-                        <i class="fas fa-bolt"></i> Emergency plumber dispatched<br>
-                        <strong>Potential Revenue: $800-2,000</strong>
-                    </div>
-                </div>
-
-                <div class="call-example non-urgent fade-in">
-                    <div class="call-header">
-                        <span class="call-status non-urgent">NON-URGENT</span>
-                        <h4>Service Request</h4>
-                    </div>
-
-                    <div class="conversation">
-                        <div class="message caller-message">
-                            <strong>Caller:</strong> "My kitchen faucet has been dripping for a few weeks. Can someone take a look next week?"
-                        </div>
-                        <div class="message ai-message">
-                            <strong>AI Agent:</strong> "I can definitely help schedule a service appointment. What days work best for you this week? Also, is this the main faucet handle or the base that's leaking?"
-                        </div>
-                    </div>
-
-                    <div class="result">
-                        <i class="fas fa-calendar-check"></i> Appointment scheduled for Tuesday<br>
-                        <strong>Potential Revenue: $150-400</strong>
-                    </div>
+            <!-- Sample Prompts -->
+            <div class="sample-prompts fade-in">
+                <h4>Quick Start - Try These Scenarios:</h4>
+                <div class="prompt-buttons">
+                    <button class="prompt-btn emergency" onclick="sendPrompt('My basement is flooding!')">
+                        🚨 Try Emergency: "My basement is flooding!"
+                    </button>
+                    <button class="prompt-btn standard" onclick="sendPrompt('My toilet is clogged')">
+                        🔧 Try Standard: "My toilet is clogged"
+                    </button>
+                    <button class="prompt-btn pricing" onclick="sendPrompt('How much to fix a leaky faucet?')">
+                        💰 Try Pricing: "How much to fix a leaky faucet?"
+                    </button>
+                    <button class="prompt-btn scheduling" onclick="sendPrompt('Can you come tomorrow?')">
+                        📅 Try Scheduling: "Can you come tomorrow?"
+                    </button>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 3rem;">
-                <div class="fade-in">
-                    <h3 style="color: var(--success-green); font-size: 1.5rem; margin-bottom: 1rem;">
-                        <i class="fas fa-check-circle"></i> 100% Call Capture Rate
-                    </h3>
-                    <p style="color: var(--text-light); font-size: 1.125rem;">Your competitors are still losing these calls to voicemail</p>
+            <!-- Chatbot Interface -->
+            <div class="chatbot-container fade-in">
+                <div class="chatbot-header">
+                    <div class="chatbot-title">
+                        <i class="fas fa-wrench"></i>
+                        <span>Live Demo: AquaFix Plumbing AI Agent</span>
+                        <div class="powered-by">Powered by AI Answer Pro Technology</div>
+                    </div>
+                    <button class="reset-chat-btn" onclick="resetChat()">
+                        <i class="fas fa-redo"></i> Reset Demo
+                    </button>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            <strong>AquaFix AI Assistant:</strong> Hi! I'm AquaFix's AI assistant. I'm available 24/7 to help with your plumbing needs. What can I help you with today?
+                        </div>
+                        <div class="message-time">Available 24/7</div>
+                    </div>
+                </div>
+                
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span>AI is typing...</span>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Describe your plumbing issue..." maxlength="200">
+                    <button id="sendButton" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Demo Results -->
+            <div class="demo-results" id="demoResults" style="display: none;">
+                <h4>Demo Results:</h4>
+                <div class="results-grid" id="resultsContent">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+                <div class="demo-cta">
+                    <p><strong>This demo shows exactly what your customers would experience when they call after hours.</strong></p>
+                    <p>Our AI agents can be customized for any service business - plumbing, HVAC, electrical, roofing, and more.</p>
+                    <div class="demo-buttons">
+                        <a href="#contact" class="cta-button">Get My AI Agent Setup</a>
+                        <a href="#contact" class="cta-button" style="background: transparent; border: 2px solid var(--primary-blue); color: var(--primary-blue);">Schedule a Demo Call</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1085,6 +1394,323 @@
             const navMenu = document.querySelector('.nav-menu');
             navMenu.classList.toggle('active');
         }
+
+        // Interactive Chatbot Functionality
+        let chatHistory = [];
+        let currentScenario = null;
+        let demoMetrics = {
+            messagesExchanged: 0,
+            responseTime: 0,
+            issueType: '',
+            leadCaptured: false,
+            urgencyLevel: 'standard'
+        };
+
+        // Plumbing knowledge base and responses
+        const plumbingResponses = {
+            emergency: {
+                keywords: ['flooding', 'burst', 'pipe', 'leak', 'water damage', 'basement', 'ceiling', 'gas', 'sewage', 'no water', 'backup'],
+                responses: [
+                    "⚠️ EMERGENCY DETECTED - This sounds like an urgent situation that needs immediate attention. I'm connecting you with our emergency dispatcher right now.",
+                    "I understand this is a serious emergency. Let me get your contact information so our emergency technician can call you within 15 minutes.",
+                    "This is definitely an emergency that can't wait. I'm creating a priority alert for our on-call plumber. What's your address and best phone number?"
+                ]
+            },
+            pricing: {
+                keywords: ['cost', 'price', 'much', 'charge', 'estimate', 'quote', 'expensive'],
+                responses: [
+                    "I'd be happy to give you a pricing estimate. For most standard repairs, we charge $89 for the service call (waived if you proceed with the repair). What specific issue are you dealing with?",
+                    "Our pricing depends on the specific work needed. Emergency services start at $150 plus $125/hour labor. Can you describe the problem in more detail?",
+                    "Let me help with pricing information. Common repairs range from $125-400 depending on complexity. What type of plumbing issue do you have?"
+                ]
+            },
+            scheduling: {
+                keywords: ['tomorrow', 'today', 'appointment', 'schedule', 'available', 'when', 'come out', 'visit'],
+                responses: [
+                    "I can definitely help schedule a service appointment. We have availability tomorrow morning at 9 AM or afternoon at 2 PM. What works better for you?",
+                    "Let me check our schedule. We can fit you in tomorrow between 10 AM - 12 PM or Thursday morning. Which day works better?",
+                    "I'd be happy to schedule that for you. What days work best? We typically have morning (8 AM - 12 PM) and afternoon (1 PM - 5 PM) slots available."
+                ]
+            },
+            standard: {
+                keywords: ['clog', 'drain', 'toilet', 'faucet', 'sink', 'drip', 'slow', 'running', 'handle'],
+                responses: [
+                    "I can help you with that. This sounds like a standard service call. Can you tell me more about the specific problem you're experiencing?",
+                    "That's a common issue we can definitely fix. Is this affecting your daily routine, or can it wait for a scheduled appointment?",
+                    "We handle this type of repair regularly. To give you the best service, can you describe exactly what's happening?"
+                ]
+            },
+            greeting: [
+                "Hi! I'm AquaFix's AI assistant. I'm available 24/7 to help with your plumbing needs. What can I help you with today?",
+                "Good to hear from you! I'm here to help with any plumbing issues you're having. What's going on?",
+                "Hello! AquaFix AI assistant here. How can I help you with your plumbing needs today?"
+            ]
+        };
+
+        // Initialize chatbot
+        function initializeChatbot() {
+            const welcomeMessage = plumbingResponses.greeting[0];
+            addMessage('ai', welcomeMessage, false);
+        }
+
+        // Send a prompt from the quick buttons
+        function sendPrompt(message) {
+            document.getElementById('messageInput').value = message;
+            sendMessage();
+        }
+
+        // Main send message function
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage('user', message);
+            input.value = '';
+            
+            // Disable input while processing
+            document.getElementById('sendButton').disabled = true;
+            showTypingIndicator();
+            
+            // Process message and respond
+            setTimeout(() => {
+                processUserMessage(message);
+                hideTypingIndicator();
+                document.getElementById('sendButton').disabled = false;
+                updateDemoMetrics(message);
+            }, Math.random() * 1500 + 1000); // Realistic response delay
+        }
+
+        // Process user input and generate appropriate response
+        function processUserMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            let responseType = 'standard';
+            let isEmergency = false;
+
+            // Detect emergency situations
+            if (plumbingResponses.emergency.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                responseType = 'emergency';
+                isEmergency = true;
+                demoMetrics.urgencyLevel = 'emergency';
+            }
+            // Detect pricing inquiries
+            else if (plumbingResponses.pricing.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                responseType = 'pricing';
+            }
+            // Detect scheduling requests
+            else if (plumbingResponses.scheduling.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                responseType = 'scheduling';
+            }
+            // Standard plumbing issues
+            else if (plumbingResponses.standard.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                responseType = 'standard';
+            }
+
+            // Get appropriate response
+            const responses = plumbingResponses[responseType].responses || plumbingResponses.standard.responses;
+            const response = responses[Math.floor(Math.random() * responses.length)];
+            
+            // Add AI response
+            addMessage('ai', response, isEmergency);
+
+            // Follow up based on scenario
+            setTimeout(() => {
+                handleFollowUp(responseType, lowerMessage);
+            }, 2000);
+        }
+
+        // Handle follow-up responses
+        function handleFollowUp(responseType, originalMessage) {
+            let followUp = '';
+
+            switch (responseType) {
+                case 'emergency':
+                    followUp = "To expedite service, I need your name, phone number, and address. Our emergency technician will call within 15 minutes.";
+                    setTimeout(() => {
+                        showEmergencyResults();
+                    }, 3000);
+                    break;
+                
+                case 'pricing':
+                    if (originalMessage.includes('faucet')) {
+                        followUp = "Faucet repairs typically cost $150-400 depending on the parts needed. Is the drip coming from the handle or the base?";
+                    } else if (originalMessage.includes('drain')) {
+                        followUp = "Drain cleaning runs $125-300. Is this a kitchen sink, bathroom, or floor drain that's slow?";
+                    } else {
+                        followUp = "To give you an accurate estimate, can you describe the specific problem you're experiencing?";
+                    }
+                    break;
+                
+                case 'scheduling':
+                    followUp = "Perfect! I'll need your name, address, and phone number to confirm the appointment. What's the best way to contact you?";
+                    setTimeout(() => {
+                        showSchedulingResults();
+                    }, 2500);
+                    break;
+                
+                case 'standard':
+                    if (originalMessage.includes('toilet')) {
+                        followUp = "Toilet issues can usually be fixed the same day. Is it not flushing properly, running constantly, or something else?";
+                    } else if (originalMessage.includes('clog')) {
+                        followUp = "We can typically clear most clogs within an hour. Is this a complete blockage or just draining slowly?";
+                    } else {
+                        followUp = "I can schedule someone to take a look. Would you prefer a morning or afternoon appointment?";
+                    }
+                    break;
+            }
+
+            if (followUp) {
+                showTypingIndicator();
+                setTimeout(() => {
+                    addMessage('ai', followUp);
+                    hideTypingIndicator();
+                }, 1500);
+            }
+        }
+
+        // Add message to chat
+        function addMessage(sender, content, isEmergency = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.className = `message ${sender}-message ${isEmergency ? 'emergency-message' : ''}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = sender === 'ai' ? `<strong>AquaFix AI:</strong> ${content}` : content;
+            
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = time;
+            
+            messageDiv.appendChild(messageContent);
+            messageDiv.appendChild(messageTime);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Update metrics
+            demoMetrics.messagesExchanged++;
+            
+            // Store in history
+            chatHistory.push({ sender, content, time, isEmergency });
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'flex';
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        // Show emergency results
+        function showEmergencyResults() {
+            demoMetrics.leadCaptured = true;
+            demoMetrics.issueType = 'Emergency Dispatch';
+            showDemoResults();
+            
+            addMessage('ai', "🚨 EMERGENCY ALERT SENT - A licensed plumber will contact you within 15 minutes. Response time: 15 minutes", false);
+        }
+
+        // Show scheduling results
+        function showSchedulingResults() {
+            demoMetrics.leadCaptured = true;
+            demoMetrics.issueType = 'Appointment Scheduled';
+            showDemoResults();
+            
+            addMessage('ai', "✅ Appointment confirmed for tomorrow at 10 AM. You'll receive a text confirmation shortly.", false);
+        }
+
+        // Update demo metrics
+        function updateDemoMetrics(message) {
+            if (message.toLowerCase().includes('flood') || message.toLowerCase().includes('emergency')) {
+                demoMetrics.urgencyLevel = 'emergency';
+                demoMetrics.issueType = 'Emergency Detection';
+            } else if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+                demoMetrics.issueType = 'Pricing Inquiry';
+            } else if (message.toLowerCase().includes('schedule') || message.toLowerCase().includes('tomorrow')) {
+                demoMetrics.issueType = 'Service Scheduling';
+            }
+            
+            demoMetrics.responseTime = Math.round(Math.random() * 30 + 15); // 15-45 seconds
+        }
+
+        // Show demo results
+        function showDemoResults() {
+            const resultsDiv = document.getElementById('demoResults');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            const captureTime = Math.round(demoMetrics.messagesExchanged * 0.5 + 1);
+            const revenueEstimate = demoMetrics.urgencyLevel === 'emergency' ? '$800-2,000' : '$150-400';
+            
+            resultsContent.innerHTML = `
+                <div class="result-item">
+                    <div class="result-value">✅ Lead Captured</div>
+                    <div class="result-label">in ${captureTime} minutes</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value">${demoMetrics.issueType}</div>
+                    <div class="result-label">Issue Classification</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value">${demoMetrics.urgencyLevel === 'emergency' ? 'Emergency Dispatch' : 'Appointment Scheduled'}</div>
+                    <div class="result-label">Next Action</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value">${revenueEstimate}</div>
+                    <div class="result-label">Potential Revenue</div>
+                </div>
+            `;
+            
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset chat
+        function resetChat() {
+            chatHistory = [];
+            demoMetrics = {
+                messagesExchanged: 0,
+                responseTime: 0,
+                issueType: '',
+                leadCaptured: false,
+                urgencyLevel: 'standard'
+            };
+            
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <strong>AquaFix AI Assistant:</strong> Hi! I'm AquaFix's AI assistant. I'm available 24/7 to help with your plumbing needs. What can I help you with today?
+                    </div>
+                    <div class="message-time">Available 24/7</div>
+                </div>
+            `;
+            
+            document.getElementById('demoResults').style.display = 'none';
+            document.getElementById('messageInput').value = '';
+        }
+
+        // Allow Enter key to send messages
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('messageInput');
+            if (messageInput) {
+                messageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
