@@ -652,6 +652,183 @@
             animation: fadeInUp 0.5s ease;
         }
 
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--primary-blue);
+            transform: scale(1.02);
+        }
+
+        .pricing-card.best-value {
+            border-color: var(--success-green);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.premium {
+            border-color: var(--accent-purple);
+            transform: scale(1.02);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--white);
+        }
+
+        .popular .pricing-badge {
+            background: var(--primary-blue);
+        }
+
+        .best-value .pricing-badge {
+            background: var(--success-green);
+        }
+
+        .premium .pricing-badge {
+            background: var(--accent-purple);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .pricing-features {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features i {
+            color: var(--success-green);
+            margin-right: 0.75rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-button {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .trust-indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .trust-item i {
+            color: var(--success-green);
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card {
+                transform: none !important;
+            }
+
+            .pricing-card.best-value {
+                order: -1;
+            }
+
+            .trust-indicators {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
         /* Contact Section */
         .contact-section {
             padding: 80px 0;
@@ -864,6 +1041,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#solution">Solution</a></li>
                 <li><a href="#demo">Live Demo</a></li>
+                <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#benefits">Benefits</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -1062,6 +1240,108 @@
         </div>
     </section>
 
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Choose Your AI Solution</h2>
+                <p class="section-subtitle">Choose the perfect AI solution for your business. Every package includes setup, training, and ongoing support to ensure your success.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Tier 1: AI Voice Agent -->
+                <div class="pricing-card fade-in popular">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>AI Voice Agent</h3>
+                        <p class="pricing-subtitle">Essential 24/7 Phone Coverage</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 24/7 AI phone answering service</li>
+                            <li><i class="fas fa-check"></i> Intelligent emergency detection & routing</li>
+                            <li><i class="fas fa-check"></i> Automatic lead qualification</li>
+                            <li><i class="fas fa-check"></i> Call recording & transcription</li>
+                            <li><i class="fas fa-check"></i> Real-time lead notifications (SMS/Email)</li>
+                            <li><i class="fas fa-check"></i> Basic analytics & reporting</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <button class="pricing-button" onclick="selectPricing('AI Voice Agent')">Contact for Pricing</button>
+                    </div>
+                </div>
+
+                <!-- Tier 2: Complete Business Solution -->
+                <div class="pricing-card fade-in best-value">
+                    <div class="pricing-badge">Best Value</div>
+                    <div class="pricing-header">
+                        <h3>Complete Business Solution</h3>
+                        <p class="pricing-subtitle">Voice Agent + Professional Web Presence</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Everything in Tier 1, PLUS:</li>
+                            <li><i class="fas fa-check"></i> Complete website redesign & development</li>
+                            <li><i class="fas fa-check"></i> Professional hosting & maintenance</li>
+                            <li><i class="fas fa-check"></i> Mobile-responsive design</li>
+                            <li><i class="fas fa-check"></i> Search engine optimization (SEO)</li>
+                            <li><i class="fas fa-check"></i> Contact forms & lead capture pages</li>
+                            <li><i class="fas fa-check"></i> SSL security & backup services</li>
+                            <li><i class="fas fa-check"></i> Ongoing website support</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <button class="pricing-button" onclick="selectPricing('Complete Business Solution')">Contact for Pricing</button>
+                    </div>
+                </div>
+
+                <!-- Tier 3: Ultimate AI Package -->
+                <div class="pricing-card fade-in premium">
+                    <div class="pricing-badge">Premium</div>
+                    <div class="pricing-header">
+                        <h3>Ultimate AI Package</h3>
+                        <p class="pricing-subtitle">Complete Solution + Web Chat AI</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Everything in Tiers 1 & 2, PLUS:</li>
+                            <li><i class="fas fa-check"></i> Natural language web chatbot</li>
+                            <li><i class="fas fa-check"></i> 24/7 website visitor engagement</li>
+                            <li><i class="fas fa-check"></i> Multi-channel lead capture</li>
+                            <li><i class="fas fa-check"></i> Custom chatbot personality & branding</li>
+                            <li><i class="fas fa-check"></i> Integration with existing business tools</li>
+                            <li><i class="fas fa-check"></i> Advanced AI training & customization</li>
+                            <li><i class="fas fa-check"></i> Priority support & updates</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <button class="pricing-button" onclick="selectPricing('Ultimate AI Package')">Contact for Pricing</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="trust-indicators fade-in">
+                <div class="trust-item">
+                    <i class="fas fa-tools"></i>
+                    <span>Setup included - No technical knowledge required</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-calendar-times"></i>
+                    <span>Cancel anytime - No long-term contracts</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>30-day money-back guarantee</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-users"></i>
+                    <span>Trusted by 500+ local businesses</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Benefits Section -->
     <section id="benefits" class="benefits-section">
         <div class="container">
@@ -1207,6 +1487,20 @@
 
                 <div class="form-row">
                     <div class="form-group">
+                        <select name="interestedPackage" id="interestedPackage">
+                            <option value="">Select Package of Interest</option>
+                            <option value="AI Voice Agent">AI Voice Agent</option>
+                            <option value="Complete Business Solution">Complete Business Solution</option>
+                            <option value="Ultimate AI Package">Ultimate AI Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="callVolume" placeholder="Current calls/week estimate" min="1">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <input type="text" name="contactName" placeholder="Your Name" required>
                     </div>
                     <div class="form-group">
@@ -1219,7 +1513,7 @@
                         <input type="email" name="email" placeholder="Email Address" required>
                     </div>
                     <div class="form-group">
-                        <input type="number" name="callVolume" placeholder="Missed calls/week estimate" min="1">
+                        <textarea name="specificNeeds" placeholder="Tell us about your specific needs (optional)" rows="1" style="resize: vertical;"></textarea>
                     </div>
                 </div>
 
@@ -1718,6 +2012,24 @@ Keep responses under 3 sentences and always be helpful, professional, and focuse
             
             document.getElementById('demoResults').style.display = 'none';
             document.getElementById('messageInput').value = '';
+        }
+
+        // Pricing selection functionality
+        function selectPricing(packageName) {
+            // Set the selected package in the form
+            const packageSelect = document.getElementById('interestedPackage');
+            if (packageSelect) {
+                packageSelect.value = packageName;
+            }
+            
+            // Smooth scroll to contact section
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
 
         // Initialize chatbot functionality
