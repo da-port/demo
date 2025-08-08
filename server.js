@@ -171,6 +171,12 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Test email configuration on startup
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    console.log('⚠️  WARNING: EMAIL_USER and EMAIL_PASSWORD environment variables are not set!');
+    console.log('Contact form emails will not work until these are configured on Railway.');
+}
+
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
     try {
@@ -236,9 +242,26 @@ Submitted: ${new Date().toLocaleString()}
 
     } catch (error) {
         console.error('Contact form error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            code: error.code,
+            command: error.command,
+            response: error.response
+        });
+        
+        // More specific error messages
+        let errorMessage = 'There was an error sending your message. Please try again or call us directly.';
+        if (error.code === 'EAUTH') {
+            errorMessage = 'Email authentication failed. Please contact support directly.';
+            console.error('🔑 Email authentication failed - check EMAIL_USER and EMAIL_PASSWORD');
+        } else if (error.code === 'ESOCKET') {
+            errorMessage = 'Network connection error. Please try again or contact support directly.';
+            console.error('🌐 Network connection error to email server');
+        }
+        
         res.status(500).json({
             success: false,
-            error: 'There was an error sending your message. Please try again or call us directly.'
+            error: errorMessage
         });
     }
 });
