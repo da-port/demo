@@ -219,7 +219,7 @@ Submitted: ${new Date().toLocaleString()}
         // Email options
         const mailOptions = {
             from: process.env.EMAIL_USER || 'noreply@myanswerpro.com',
-            to: 'admin@myanswerpro.com',
+            to: 'support@myanswerpro.com',
             subject: `New Lead: ${businessName} - ${interestedPackage || 'Package Interest'}`,
             text: emailContent,
             html: emailContent.replace(/\n/g, '<br>')
