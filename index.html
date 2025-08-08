@@ -868,20 +868,31 @@
         }
 
         .submit-button {
-            background: var(--white);
-            color: var(--primary-blue);
-            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 1.2rem 2rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            display: block !important;
+            visibility: visible !important;
         }
 
         .submit-button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Animations */
